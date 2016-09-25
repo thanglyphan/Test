@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ThangsModule:war">
+    <output-path>$PROJECT_DIR$/ThangsModule/target</output-path>
+    <root id="archive" name="ThangsModule-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="ThangsModule:war exploded" />
+    </root>
+  </artifact>
+</component>
