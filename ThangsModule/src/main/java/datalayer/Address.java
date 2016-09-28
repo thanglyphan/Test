@@ -1,11 +1,14 @@
 package datalayer;
 
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by thang on 20.09.2016.
@@ -13,20 +16,24 @@ import java.util.List;
 @Entity
 @NamedQueries(value = {
         @NamedQuery(name = Address.FIND_ALL, query = "SELECT a FROM Address a"),
+        @NamedQuery(name = Address.FIND_THIS_ADDRESS, query = "SELECT a FROM Address a WHERE a.id =?1"),
 })
 public class Address {
     /*-------------------------------QUERIES-------------------------------*/
     public static final String FIND_ALL = "Address.find_all";
+    public static final String FIND_THIS_ADDRESS = "Address.find_this_address";
     /*-------------------------------DATA FIELDS-------------------------------*/
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     @NotNull
     @Size(min = 2 , max = 100)
-    @Id
     private String gateAddress;
 
-    @NotNull
-    @ManyToMany
-    private List<User> users;
+    @OneToOne
+    private User user;
 
     @NotNull
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
@@ -50,12 +57,12 @@ public class Address {
 
 
     /*-------------------------------GETTER AND SETTER-------------------------------*/
-    public List<User> getUsers() {
-        return users;
+    public User getUsers() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(User user) {
+        this.user = user;
     }
 
     public String getGateAddress() {
@@ -88,5 +95,13 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -1,4 +1,4 @@
-/**
+package essentials; /**
  * Created by thang on 23.09.2016.
  */
 
@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,7 +38,6 @@ public abstract class SeleniumTestBase {
             }
         }
     }
-
 
     private static WebDriver getChromeDriver(){
 
@@ -86,7 +86,7 @@ public abstract class SeleniumTestBase {
 
 
     @Before
-    public void startFromInitialPage(){
+    public void checkIfWildflyIsRunning(){
 
         //if for any reason WildFly is not running any more, do not fail the tests
         assumeTrue("Wildfly is not up and running", JBossUtil.isJBossUpAndRunning());

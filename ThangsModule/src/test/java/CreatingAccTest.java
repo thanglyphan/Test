@@ -1,5 +1,11 @@
+import businesslayer.UserBean;
+import essentials.SeleniumTestBase;
+import essentials.CreatingAccountObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.ejb.EJB;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -8,20 +14,37 @@ import static org.junit.Assert.assertEquals;
  * Created by thang on 24.09.2016.
  */
 public class CreatingAccTest extends SeleniumTestBase {
-    private WriterToFieldObject po;
+    private CreatingAccountObject accountObject;
 
     //@Before
     public void startFromInitialPage() {
 
-        po = new WriterToFieldObject(getDriver());
-        po.toStartingPage();
-        assertTrue(po.isOnPage());
+        accountObject = new CreatingAccountObject(getDriver());
+        accountObject.toStartingPage();
+        assertTrue(accountObject.isOnPage());
+    }
+    //@After
+    public void deleteUser(){
+        accountObject.deleteUser(0);
     }
 
-
     //@Test
-    public void testIncr() {
-        po.toStartingPage();
+    public void testCreateUser() {
+        assertEquals(0, accountObject.getNumberOfUsers());
+        accountObject.toStartingPage();
+        accountObject.writeTextTo("emailText", "Lyern52@gmail.com");
+        accountObject.writeTextTo("passwordText", "Mazda323123");
+        accountObject.writeTextTo("firstNameText", "Thang");
+        accountObject.writeTextTo("middleNameText", "Quoc Ly");
+        accountObject.writeTextTo("lastNameText", "Phan");
+        accountObject.writeTextTo("gateAdrText", "Trimveien 8");
+        accountObject.writeTextTo("postCodeText", "0372");
+        accountObject.writeTextTo("countryText", "Norway");
+        accountObject.writeTextTo("cityText", "Oslo");
+
+        accountObject.clickCreate();
+        //One user has been created.
+        assertEquals(1, accountObject.getNumberOfUsers());
     }
 
 }

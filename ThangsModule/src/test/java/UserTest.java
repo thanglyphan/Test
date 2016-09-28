@@ -53,12 +53,14 @@ public class UserTest {
         return true;
     }
 
-    private User getUserWithoutAddress(){
+    private User getValidUser(){
         User user = new User();
         user.setFirstname("Thang");
         user.setMiddlename("Ly");
+        user.setPassword("Mazda323123");
         user.setLastname("Phan");
         user.setEmail("lyern52@gmail.com");
+        user.setAdr(getValidAddress());
         return user;
     }
 
@@ -68,48 +70,25 @@ public class UserTest {
         adr.setCity("Oslo");
         adr.setGateAddress("Trimveien 8");
         adr.setPostCode(0372);
+        persistInATransaction(adr);
         return adr;
+    }
+
+    //@Test
+    public void testDeleteUser(){
+
+
     }
 
     @Test
     public void testCreateUserAndFindTheUser(){
-        //Make a user and add an address to it.
-        User user = getUserWithoutAddress();
+        //Creating a user.
+        User user = getValidUser();
 
-        Address adr = getValidAddress();
-        adr.setUsers(new ArrayList<>());
-        adr.getUsers().add(user);
-
-        user.setAdr(new ArrayList<>());
-        user.getAdr().add(adr);
-
-        //Persist to database.
-        assertTrue(persistInATransaction(user, adr));
-
-        //Check if transaction for User and Address is OK.
+        assertTrue(persistInATransaction(user));
         User found = em.find(User.class, user.getEmail());
-        assertEquals(user.getEmail(), found.getEmail());
-        assertTrue(found.getAdr().stream().anyMatch(a -> a.getGateAddress().equals(adr.getGateAddress())));
+        assertEquals("Trimveien 8", found.getAdr().getGateAddress());
 
-        //Check if Address is OK.
-        Address adrFound = em.find(Address.class, adr.getGateAddress());
-        assertEquals(adr.getGateAddress(), adrFound.getGateAddress());
-
-        //Add the same address to another user.
-        User userTwo = getUserWithoutAddress();
-        userTwo.setEmail("test@test.no");
-        userTwo.setAdr(new ArrayList<>());
-        userTwo.getAdr().add(adrFound);
-        adr.getUsers().add(userTwo);
-        assertTrue(persistInATransaction(userTwo));
-
-        //UserTwo lives in the same address as User.
-        assertTrue(userTwo.getAdr().stream().anyMatch(a -> a.getGateAddress().equals(adr.getGateAddress())));
-
-
-        //Check if Trimveien 8 have to users living there.
-        assertEquals(user, adrFound.getUsers().get(0));
-        assertEquals(userTwo.getAdr().get(0).getGateAddress(), adrFound.getGateAddress());
 
     }
 

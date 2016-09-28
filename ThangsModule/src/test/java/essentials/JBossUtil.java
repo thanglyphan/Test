@@ -1,4 +1,4 @@
-/**
+package essentials; /**
  * Created by thang on 23.09.2016.
  */
 import org.apache.http.auth.AuthScope;

@@ -1,3 +1,5 @@
+package essentials;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -26,11 +28,10 @@ public abstract class PageObject {
     }
 
     protected String getBaseUrl(){
-        return "http://localhost:8080";
+        return "http://localhost:8080/choices";
     }
 
     protected Boolean waitForPageToLoad() {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, 10); //give up after 10 seconds
 
         //keep executing the given JS till it returns "true", when page is fully loaded and ready

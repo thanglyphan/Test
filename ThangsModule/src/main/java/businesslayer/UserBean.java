@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,20 +19,13 @@ import java.util.List;
 /**
  * Created by thang on 21.09.2016.
  */
-@Named
 @Stateless
-public class UserAdrBean implements Serializable{
-    private String email;
-    private String firstname;
-    private String middlename;
-    private String lastname;
-
-
+public class UserBean implements Serializable{
 
     @PersistenceContext(unitName = "MyDB")
     EntityManager em;
 
-    public UserAdrBean(){}
+    public UserBean(){}
 
     private void persistInATransaction(Object... obj) {
         for(Object o : obj) {
@@ -39,23 +33,20 @@ public class UserAdrBean implements Serializable{
         }
     }
 
-    public boolean createUser(@NotNull String email, @NotNull String fName, @NotNull String lName, @NotNull String mName, @NotNull Address adr){
+    public boolean createUser(@NotNull String email, @NotNull String password, @NotNull String fName, @NotNull String lName, @NotNull String mName, @NotNull Address adr){
         if(findUser(email)) {
             return false;
         }else{
             User user = new User();
             user.setEmail(email);
+            user.setPassword(password);
             user.setFirstname(fName);
             user.setMiddlename(mName);
             user.setLastname(lName);
+            user.setAdr(adr);
+            adr.setUsers(user);
 
-            user.setAdr(new ArrayList<>());
-            user.getAdr().add(adr);
-
-            adr.setUsers(new ArrayList<>());
-            adr.getUsers().add(user);
-
-            persistInATransaction(user, adr);
+            persistInATransaction(adr, user);
             return true;
         }
     }
@@ -70,39 +61,33 @@ public class UserAdrBean implements Serializable{
     public List<User> getUserList(){
         return em.createNamedQuery(User.FIND_ALL).getResultList();
     }
+
     public List<Address> getAddressList(){
         return em.createNamedQuery(Address.FIND_ALL).getResultList();
     }
 
-    public String getEmail() {
-        return email;
+    public Address getThisAddress(Long id){
+        Query q = em.createNamedQuery(Address.FIND_THIS_ADDRESS);
+        q.setParameter(1, id);
+        return (Address) q.getSingleResult();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void deleteUser(String email){
+        User user = em.find(User.class, email);
+        em.remove(user);
     }
 
-    public String getFirstname() {
-        return firstname;
+    public void deleteAllUsers(){
+        for(User a: getUserList()){
+            deleteUser(a.getEmail());
+        }
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public String checkLogin(String email, String password) {
+        User found = em.find(User.class, email);
+        if(found.getPassword().equals(password)){
+            return "overview";
+        }
+        return "login";
     }
 }

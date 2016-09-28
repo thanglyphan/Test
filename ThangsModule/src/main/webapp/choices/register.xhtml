@@ -2,27 +2,99 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-
-<h:head>
-    <title>Create your account</title>
-</h:head>
-<h:body>
-
-    <p>
-        Back to <a href="../index.html">Home</a>
-    </p>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 
-    <h:form id="form">
+<ui:composition template="../layout.xhtml">
 
-        <h:outputLabel value="Enter your name: "/>
-        <h:inputText value="#{userAdrBean.email}"/>
-        <h:inputText value="#{userAdrBean.firstname}"/>
-        <h:inputText value="#{userAdrBean.middlename}"/>
-        <h:inputText value="#{userAdrBean.lastname}"/>
+    <ui:define name="title">
+        Register a user
+    </ui:define>
 
-    </h:form>
+    <ui:define name="content">
 
-</h:body>
+
+        <c:if test="#{userController.getUsers().size() == 0}">
+            <h3>No user has been created yet... be the first one!</h3>
+        </c:if>
+
+        <h:form id="form">
+
+            <h:outputLabel value="Enter your email: "/>
+            <h:inputText value="#{userController.email}" id="emailText"/><br></br>
+            <h:outputLabel value="Enter your password: "/>
+            <h:inputSecret value="#{userController.password}" id="passwordText"/><br></br>
+            <h:outputLabel value="Enter your first name: "/>
+            <h:inputText value="#{userController.firstname}" id="firstNameText"/><br></br>
+            <h:outputLabel value="Enter your middle name: "/>
+            <h:inputText value="#{userController.middlename}" id="middleNameText"/><br></br>
+            <h:outputLabel value="Enter your last name: "/>
+            <h:inputText value="#{userController.lastname}" id="lastNameText"/><br></br>
+            <h:outputLabel value="Enter your gate adr: "/>
+            <h:inputText value="#{userController.gateAddress}" id="gateAdrText"/><br></br>
+            <h:outputLabel value="Enter your postcode: "/>
+            <h:inputText value="#{userController.postCode}" id="postCodeText"/><br></br>
+            <h:outputLabel value="Enter your country: "/>
+            <h:inputText value="#{userController.country}" id="countryText"/><br></br>
+            <h:outputLabel value="Enter your city: "/>
+            <h:inputText value="#{userController.city}" id="cityText"/><br></br>
+
+            <h:commandButton value="Create" action="#{userController.createNewUser}" id="createUserBtn"/>
+
+
+        </h:form>
+
+
+        <c:choose>
+            <c:when test="#{userController.getUsers().size() == 0}">
+                <h:outputText value="No users yet"/>
+            </c:when>
+
+            <c:otherwise>
+                <!--
+                    We are creating a table for each comment. However, here we only need to
+                    define the columns, as JSF will automatically generate a row for each
+                    comment.
+                -->
+                <h:dataTable value="#{userController.getUsers()}"
+                             var="user" border="1" id="userTable">
+                    <!--
+                        Practically, here JSF is getting the List<Comment> from
+                        getMostRecentComments, and iterates like in a for-loop, where
+                        at each iteration the variable (var) containing the current
+                        comment is called "comment", ie var="comment"
+                    -->
+                    <h:column>
+                        <f:facet name="header">Email</f:facet> <!-- Column name -->
+                        <h:outputText value="#{user.email}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{user.firstname}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <!--
+                            When this button is clicked, the form will be sent in a POST HTTP request,
+                            where JSF is told to call the method deleteComment on the id of the comment
+                            visualized in this row.
+                            Note: actions should be short, ie just one single method call with parameters.
+                            If you need more complexity, the code should be in the Beans, not here where
+                            we define the user-interface.
+                          -->
+                        <h:form id="deleteForm">
+                            <h:commandButton value="Delete" action="#{userController.deleteUser(user.email)}"
+                                             id="deleteButton"/>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+</ui:composition>
+
 </html>
