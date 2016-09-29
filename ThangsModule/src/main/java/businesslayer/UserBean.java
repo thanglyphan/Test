@@ -2,6 +2,7 @@ package businesslayer;
 
 import datalayer.Address;
 import datalayer.User;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -13,6 +14,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,18 +42,20 @@ public class UserBean implements Serializable{
         }else{
             User user = new User();
             user.setEmail(email);
-            user.setPassword(password);
+            String salt = getSalt();
+            user.setSalt(salt);
+            String hash = computeHash(password, salt);
+            user.setHash(hash);
             user.setFirstname(fName);
             user.setMiddlename(mName);
             user.setLastname(lName);
-            user.setAdr(adr);
+            user.setAddress(adr);
             adr.setUsers(user);
 
             persistInATransaction(adr, user);
             return true;
         }
     }
-
 
 
 
@@ -84,10 +89,39 @@ public class UserBean implements Serializable{
     }
 
     public String checkLogin(String email, String password) {
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            return "login";
+        }
         User found = em.find(User.class, email);
-        if(found.getPassword().equals(password)){
+        if(found == null){
+            computeHash(password, getSalt());
+            return "login";
+        }
+
+        String hash = computeHash(password, found.getSalt());
+
+        if(hash.equals(found.getHash())){
             return "overview";
         }
         return "login";
+    }
+
+    @NotNull
+    protected String getSalt(){
+        SecureRandom random = new SecureRandom();
+        int bitsPerChar = 5;
+        int twoPowerOfBits = 32; // 2^5
+        int n = 26;
+        assert n * bitsPerChar >= 128;
+
+        String salt = new BigInteger(n * bitsPerChar, random).toString(twoPowerOfBits);
+        return salt;
+    }
+
+    @NotNull
+    protected String computeHash(String password, String salt){
+        String combined = password + salt;
+        return DigestUtils.sha256Hex(combined);
     }
 }

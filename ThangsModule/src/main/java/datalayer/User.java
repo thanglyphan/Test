@@ -33,8 +33,12 @@ public class User {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$")
-    private String password;
+    private String hash;
+
+    @NotNull
+    @Size(max = 26)
+    private String salt;
+
 
     @NotNull
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
@@ -48,8 +52,9 @@ public class User {
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String lastname;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Address adr;
+    @NotNull
+    @OneToOne(orphanRemoval = true)
+    private Address address;
 
     public User(){}
 
@@ -96,17 +101,6 @@ public class User {
         this.middlename = middlename;
     }
 
-    public Address getAdr() {
-        return adr;
-    }
-
-    public void setAdr(Address adr) {
-        this.adr = adr;
-    }
-
-    @OneToOne(mappedBy = "user", optional = false)
-    private Address address;
-
     public Address getAddress() {
         return address;
     }
@@ -115,11 +109,19 @@ public class User {
         this.address = address;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHash() {
+        return hash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

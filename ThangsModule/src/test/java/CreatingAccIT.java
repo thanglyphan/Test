@@ -13,22 +13,22 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by thang on 24.09.2016.
  */
-public class CreatingAccTest extends SeleniumTestBase {
+public class CreatingAccIT extends SeleniumTestBase {
     private CreatingAccountObject accountObject;
 
-    //@Before
+    @Before
     public void startFromInitialPage() {
 
         accountObject = new CreatingAccountObject(getDriver());
         accountObject.toStartingPage();
         assertTrue(accountObject.isOnPage());
     }
-    //@After
+    @After
     public void deleteUser(){
         accountObject.deleteUser(0);
     }
 
-    //@Test
+    @Test
     public void testCreateUser() {
         assertEquals(0, accountObject.getNumberOfUsers());
         accountObject.toStartingPage();

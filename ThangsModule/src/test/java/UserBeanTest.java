@@ -1,14 +1,18 @@
 import businesslayer.UserBean;
 import datalayer.Address;
+import datalayer.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -25,11 +29,17 @@ public class UserBeanTest {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage("businesslayer")
                 .addPackage("datalayer")
+                .addPackages(true, "org.apache.commons.codec")
                 .addAsResource("META-INF/persistence.xml");
     }
 
     @EJB
     private UserBean userBean;
+
+    @After @Before
+    public void clear(){
+        userBean.deleteAllUsers();
+    }
 
     public Address getValidAddress(){
         Address adr = new Address();
@@ -43,14 +53,13 @@ public class UserBeanTest {
     public void testUserIsCreated(){
         Address adr = getValidAddress();
 
-        assertTrue(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
+        assertTrue(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Quoc Ly", "Phan", adr));
         assertFalse(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Quoc Ly", "Phan", adr));
 
         assertEquals(1, userBean.getUserList().size());
         assertEquals(1, userBean.getAddressList().size());
-
-        userBean.deleteAllUsers();
     }
+
     @Test
     public void testDeleteUser(){
         int expected = userBean.getAddressList().size();
@@ -70,7 +79,6 @@ public class UserBeanTest {
         assertTrue(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
 
         assertTrue(userBean.findUser("Lyern52@gmail.com"));
-        userBean.deleteAllUsers();
     }
 
     @Test
@@ -81,6 +89,20 @@ public class UserBeanTest {
         Address found = userBean.getThisAddress(userBean.getUserList().get(0).getAddress().getId());
 
         assertEquals(adr.getId(), found.getId());
-        userBean.deleteAllUsers();
+    }
+
+    @Test
+    public void testCheckLogin(){
+        //Not done
+        Address adr = getValidAddress();
+        assertTrue(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
+        assertFalse(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
+
+
+
+        List<User> users = userBean.getUserList();
+        User one = users.get(0);
+
+        assertEquals("overview", userBean.checkLogin("Lyern521@gmail.com", "Mazda323123"));
     }
 }
