@@ -1,18 +1,16 @@
-import datalayer.*;
+import datalayer.Address;
+import datalayer.User;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

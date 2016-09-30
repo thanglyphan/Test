@@ -1,6 +1,5 @@
 import businesslayer.UserBean;
 import datalayer.Address;
-import datalayer.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -12,11 +11,8 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by thang on 21.09.2016.
@@ -93,15 +89,10 @@ public class UserBeanTest {
 
     @Test
     public void testCheckLogin(){
-        //Not done
         Address adr = getValidAddress();
         assertTrue(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
         assertFalse(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
 
-
-
-        List<User> users = userBean.getUserList();
-        User one = users.get(0);
 
         assertEquals("overview", userBean.checkLogin("Lyern521@gmail.com", "Mazda323123"));
     }

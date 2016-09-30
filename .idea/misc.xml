@@ -4,6 +4,8 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/backend" />
+    <file type="web" url="file://$PROJECT_DIR$/frontend" />
     <file type="web" url="file://$PROJECT_DIR$/ThangsModule" />
   </component>
   <component name="MavenProjectsManager">
@@ -15,6 +17,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/MyApplication/pom.xml" />
+        <option value="$PROJECT_DIR$/ThangsModule/pom.xml" />
       </set>
     </option>
   </component>

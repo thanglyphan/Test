@@ -1,11 +1,8 @@
-import businesslayer.UserBean;
-import essentials.SeleniumTestBase;
 import essentials.CreatingAccountObject;
+import essentials.SeleniumTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.ejb.EJB;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;

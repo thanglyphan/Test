@@ -1,12 +1,15 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="ThangsModule:war exploded">
-    <output-path>$PROJECT_DIR$/ThangsModule/target/ThangsModule-0.0.1-SNAPSHOT</output-path>
+  <artifact type="exploded-war" name="frontend:war exploded">
+    <output-path>$PROJECT_DIR$/frontend/target/frontend-0.0.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="ThangsModule" />
+          <element id="module-output" name="frontend" />
         </element>
         <element id="directory" name="lib">
+          <element id="archive" name="backend-0.0.1-SNAPSHOT.jar">
+            <element id="module-output" name="backend" />
+          </element>
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.faces:jboss-jsf-api_2.2_spec:2.2.11" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:1.0.0.Final" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec:1.0.0.Final" />
@@ -15,9 +18,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/ThangsModule/target/ThangsModule-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/frontend/target/frontend-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="ThangsModule/web/Web" />
+      <element id="javaee-facet-resources" facet="frontend/web/Web" />
     </root>
   </artifact>
 </component>

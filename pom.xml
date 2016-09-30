@@ -3,16 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>thangomango</groupId>
     <artifactId>root</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>Root of Thang</name>
 
+    <!--
+        Project divided in 3 modules:
+        backend: contains Entity and EJB
+        frontend: depends on backend, and contains JSF controllers and XHTML pages
+        report: used to aggregate coverage results from the other 2 modules
+    -->
 
     <modules>
-        <module>ThangsModule</module>
+        <module>backend</module>
+        <module>frontend</module>
+        <module>report</module>
+        <module>exam</module>
     </modules>
 
     <properties>
@@ -24,6 +32,8 @@
         <version.jacoco>0.7.7.201606060606</version.jacoco>
         <fs>${file.separator}</fs>
     </properties>
+
+
 
 
     <!--
@@ -179,7 +189,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.6</version>
+                <version>1.10</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -363,40 +373,6 @@
                     </configuration>
                 </plugin>
 
-
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.7.201606060606</version>
-                    <executions>
-                        <execution>
-                            <id>default-prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-report</id>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-prepare-agent-integration</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>prepare-agent-integration</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-report-integration</id>
-                            <goals>
-                                <goal>report-integration</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
 
                 <plugin>
                     <groupId>org.jacoco</groupId>
