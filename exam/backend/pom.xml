@@ -3,22 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>root</artifactId>
+        <artifactId>exam</artifactId>
         <groupId>thangomango</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>frontend</artifactId>
-    <packaging>war</packaging>
+    <artifactId>backend</artifactId>
+    <packaging>jar</packaging>
+
 
     <dependencies>
-        <dependency>
-            <groupId>thangomango</groupId>
-            <artifactId>backend</artifactId>
-            <version>${project.version}</version>
-            
-        </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -128,11 +122,6 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <java-opts>
-                        -javaagent:${settings.localRepository}${fs}org${fs}jacoco${fs}org.jacoco.agent${fs}${version.jacoco}${fs}org.jacoco.agent-${version.jacoco}-runtime.jar=destfile=${basedir}${fs}target${fs}jacoco-it.exec
-                    </java-opts>
-                </configuration>
             </plugin>
 
             <plugin>

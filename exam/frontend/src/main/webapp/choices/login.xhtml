@@ -11,16 +11,14 @@
 <ui:composition template="../layout.xhtml">
 
     <ui:define name="title">
-        Statistics
+        Login
     </ui:define>
 
     <ui:define name="content">
 
-
-
         <c:choose>
-            <c:when test="#{userController.getUsers().size() == 0}">
-                <h:outputText value="No users yet"/>
+            <c:when test="#{userController.isLoggedIn()}">
+                <h:outputText value="You are logged in!"/>
             </c:when>
 
             <c:otherwise>

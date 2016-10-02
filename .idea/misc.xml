@@ -4,8 +4,8 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/backend" />
-    <file type="web" url="file://$PROJECT_DIR$/frontend" />
+    <file type="web" url="file://$PROJECT_DIR$/exam/backend" />
+    <file type="web" url="file://$PROJECT_DIR$/exam/frontend" />
     <file type="web" url="file://$PROJECT_DIR$/ThangsModule" />
   </component>
   <component name="MavenProjectsManager">

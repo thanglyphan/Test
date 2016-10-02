@@ -17,11 +17,9 @@
     -->
 
     <modules>
-        <module>backend</module>
-        <module>frontend</module>
-        <module>report</module>
         <module>exam</module>
     </modules>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,8 +30,6 @@
         <version.jacoco>0.7.7.201606060606</version.jacoco>
         <fs>${file.separator}</fs>
     </properties>
-
-
 
 
     <!--
@@ -305,6 +301,7 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>1.1.0.Alpha11</version>
                     <configuration>
+                        <skip>true</skip>
                         <!--
                             If jbossHome is not specified, this plugin will download it.
                             Here, we point to the same installation done for the unit tests
@@ -412,5 +409,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

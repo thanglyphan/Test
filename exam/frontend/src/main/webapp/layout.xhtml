@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 >
 <!--
     Define a default layout, where pages have common header/footer text
@@ -23,6 +24,18 @@
         <a href="register.xhtml"> Register </a>
         <a href="overview.xhtml"> Statistics </a>
 
+        <c:choose>
+            <c:when test="#{userController.isLoggedIn()}">
+                <h:form id="logoutForm">
+                    <h:outputText value="Hi #{userController.loggedInUser}!  "/>
+                    <h:commandButton value="Log Out" action="#{userController.logOut}" id="logoutButton"/>
+                </h:form>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="Not logged in  "/>
+                <h:button value="Log In" outcome="login.xhtml" id="loginButton"/>
+            </c:otherwise>
+        </c:choose>
     </p>
     <hr/>
 

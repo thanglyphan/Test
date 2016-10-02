@@ -26,6 +26,7 @@ public class UserController implements Serializable {
     private int postCode;
     private String city;
     private Address adr;
+    private String loggedInUser;
 
     @EJB
     private UserBean userBean;
@@ -36,11 +37,23 @@ public class UserController implements Serializable {
         adr.setGateAddress(gateAddress);
         adr.setCountry(country);
         adr.setPostCode(postCode);
-        userBean.createUser(email, password ,firstname, middlename, lastname, adr);
+        boolean check = userBean.createUser(email, password ,firstname, middlename, lastname, adr);
+        if(check){
+            loggedInUser = email;
+        }
     }
 
     public String login(){
-        return userBean.checkLogin(email, password);
+        String valid = userBean.checkLogin(email, password);
+        if(!valid.equals("login")){
+            loggedInUser = email;
+        }
+        return valid;
+    }
+
+    public String logOut(){
+        loggedInUser = null;
+        return "login";
     }
 
     public List<User> getUsers(){
@@ -129,5 +142,13 @@ public class UserController implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedInUser != null;
+    }
+
+    public String getLoggedInUser(){
+        return loggedInUser;
     }
 }

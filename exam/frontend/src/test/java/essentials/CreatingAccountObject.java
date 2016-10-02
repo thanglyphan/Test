@@ -16,7 +16,7 @@ public class CreatingAccountObject extends PageObject {
     }
 
     public void toStartingPage(){
-        getDriver().get(getBaseUrl()+"/register.xhtml");
+        getDriver().get(getBaseUrl()+ "/register.xhtml");
         waitForPageToLoad();
     }
 
