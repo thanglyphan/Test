@@ -1,6 +1,8 @@
 package datalayer;
 
 
+import validation.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -28,29 +30,30 @@ public class User {
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
-    @NotNull
+    @NotEmpty
     private String hash;
 
-    @NotNull
+    @NotEmpty
     @Size(max = 26)
     private String salt;
 
-
-    @NotNull
+    @NotEmpty
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String firstname;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String middlename;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String lastname;
 
-    @NotNull
     @OneToOne(orphanRemoval = true)
     private Address address;
+
+    @NotNull
+    private boolean admin;
 
     public User(){}
 
@@ -119,5 +122,13 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

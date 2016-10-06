@@ -1,5 +1,6 @@
 import essentials.CreatingAccountObject;
 import essentials.SeleniumTestBase;
+import essentials.StatisticsPageObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,24 +13,19 @@ import static org.junit.Assert.assertEquals;
  */
 public class CreatingAccIT extends SeleniumTestBase {
     private CreatingAccountObject accountObject;
+    private StatisticsPageObject statisticsObject;
 
     @Before
     public void startFromInitialPage() {
-
         accountObject = new CreatingAccountObject(getDriver());
         accountObject.toStartingPage();
         assertTrue(accountObject.isOnPage());
     }
-    @After
-    public void deleteUser(){
-        accountObject.deleteUser(0);
-    }
 
     @Test
     public void testCreateUser() {
-        assertEquals(0, accountObject.getNumberOfUsers());
         accountObject.toStartingPage();
-        accountObject.writeTextTo("emailText", "Lyern52@gmail.com");
+        accountObject.writeTextTo("emailText", "admin@admin.no");
         accountObject.writeTextTo("passwordText", "Mazda323123");
         accountObject.writeTextTo("firstNameText", "Thang");
         accountObject.writeTextTo("middleNameText", "Quoc Ly");
@@ -39,9 +35,13 @@ public class CreatingAccIT extends SeleniumTestBase {
         accountObject.writeTextTo("countryText", "Norway");
         accountObject.writeTextTo("cityText", "Oslo");
 
-        accountObject.clickCreate();
+        statisticsObject = accountObject.clickCreate();
         //One user has been created.
-        assertEquals(1, accountObject.getNumberOfUsers());
+        statisticsObject.toStartingPage();
+        assertEquals(1, statisticsObject.getNumberOfUsers());
+        statisticsObject.deleteUser(0);
+        assertEquals(0, statisticsObject.getNumberOfUsers());
+
     }
 
 }

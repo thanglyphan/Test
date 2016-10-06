@@ -25,9 +25,9 @@
                 <h:form id="form">
 
                     <h:outputLabel value="Enter your email: "/>
-                    <h:inputText value="#{userController.email}" id="emailText"/><br></br>
+                    <h:inputText value="#{userController.formEmail}" id="emailText"/><br></br>
                     <h:outputLabel value="Enter your password: "/>
-                    <h:inputSecret value="#{userController.password}" id="passwordText"/><br></br>
+                    <h:inputSecret value="#{userController.formPassword}" id="passwordText"/><br></br>
 
                     <h:commandButton value="Login" action="#{userController.login}" id="loginBtn"/>
                 </h:form>

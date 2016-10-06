@@ -27,79 +27,38 @@
             </c:when>
 
             <c:otherwise>
-                <h:form id="form">
+                <h:form id="createUserForm">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Email: "/>
+                        <h:inputText value="#{userController.formEmail}" id="emailText"/>
+                        <h:outputLabel value="Password: "/>
+                        <h:inputSecret value="#{userController.formPassword}" id="passwordText"/>
+                        <h:outputLabel value="First name: "/>
+                        <h:inputText value="#{userController.formFirstname}" id="firstNameText"/>
+                        <h:outputLabel value="Middle name: "/>
+                        <h:inputText value="#{userController.formMiddlename}" id="middleNameText"/>
+                        <h:outputLabel value="Last name: "/>
+                        <h:inputText value="#{userController.formLastname}" id="lastNameText"/>
+                        <h:outputLabel value="Gate address: "/>
+                        <h:inputText value="#{userController.formGateAddress}" id="gateAdrText"/>
+                        <h:outputLabel value="Postcode: "/>
+                        <h:inputText value="#{userController.formPostCode}" id="postCodeText"/>
+                        <h:outputLabel value="Country: "/>
 
-                    <h:outputLabel value="Enter your email: "/>
-                    <h:inputText value="#{userController.email}" id="emailText"/><br></br>
-                    <h:outputLabel value="Enter your password: "/>
-                    <h:inputSecret value="#{userController.password}" id="passwordText"/><br></br>
-                    <h:outputLabel value="Enter your first name: "/>
-                    <h:inputText value="#{userController.firstname}" id="firstNameText"/><br></br>
-                    <h:outputLabel value="Enter your middle name: "/>
-                    <h:inputText value="#{userController.middlename}" id="middleNameText"/><br></br>
-                    <h:outputLabel value="Enter your last name: "/>
-                    <h:inputText value="#{userController.lastname}" id="lastNameText"/><br></br>
-                    <h:outputLabel value="Enter your gate adr: "/>
-                    <h:inputText value="#{userController.gateAddress}" id="gateAdrText"/><br></br>
-                    <h:outputLabel value="Enter your postcode: "/>
-                    <h:inputText value="#{userController.postCode}" id="postCodeText"/><br></br>
-                    <h:outputLabel value="Enter your country: "/>
-                    <h:inputText value="#{userController.country}" id="countryText"/><br></br>
-                    <h:outputLabel value="Enter your city: "/>
-                    <h:inputText value="#{userController.city}" id="cityText"/><br></br>
+                        <h:selectOneMenu value="#{userController.formCountry}" id="countryText">
+                            <f:selectItems value="#{userController.countries}"/>
+                        </h:selectOneMenu>
+
+                        <h:outputLabel value="City: "/>
+                        <h:inputText value="#{userController.formCity}" id="cityText"/>
+
+                    </h:panelGrid>
 
                     <h:commandButton value="Create" action="#{userController.createNewUser}" id="createUserBtn"/>
-
-
                 </h:form>
             </c:otherwise>
         </c:choose>
 
-        <c:choose>
-            <c:when test="#{userController.getUsers().size() == 0}">
-                <h:outputText value="No users yet"/>
-            </c:when>
-
-            <c:otherwise>
-                <!--
-                    We are creating a table for each comment. However, here we only need to
-                    define the columns, as JSF will automatically generate a row for each
-                    comment.
-                -->
-                <h:dataTable value="#{userController.getUsers()}"
-                             var="user" border="1" id="userTable">
-                    <!--
-                        Practically, here JSF is getting the List<Comment> from
-                        getMostRecentComments, and iterates like in a for-loop, where
-                        at each iteration the variable (var) containing the current
-                        comment is called "comment", ie var="comment"
-                    -->
-                    <h:column>
-                        <f:facet name="header">Email</f:facet> <!-- Column name -->
-                        <h:outputText value="#{user.email}"></h:outputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        <h:outputText value="#{user.firstname}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Action</f:facet>
-                        <!--
-                            When this button is clicked, the form will be sent in a POST HTTP request,
-                            where JSF is told to call the method deleteComment on the id of the comment
-                            visualized in this row.
-                            Note: actions should be short, ie just one single method call with parameters.
-                            If you need more complexity, the code should be in the Beans, not here where
-                            we define the user-interface.
-                          -->
-                        <h:form id="deleteForm">
-                            <h:commandButton value="Delete" action="#{userController.deleteUser(user.email)}"
-                                             id="deleteButton"/>
-                        </h:form>
-                    </h:column>
-                </h:dataTable>
-            </c:otherwise>
-        </c:choose>
     </ui:define>
 
 </ui:composition>

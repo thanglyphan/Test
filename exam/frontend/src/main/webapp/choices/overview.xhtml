@@ -46,7 +46,8 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Address</f:facet>
-                        <h:outputText value="#{user.address.gateAddress}, #{user.address.postCode} #{user.address.city}"/>
+                        <h:outputText
+                                value="#{user.address.gateAddress}, #{user.address.postCode} #{user.address.city}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">Country</f:facet>
@@ -54,10 +55,17 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Action</f:facet>
-
-                        <h:form id="deleteForm">
-                            <h:commandButton value="Delete" action="#{userController.deleteUser(user.email)}" id="deleteButton"/>
-                        </h:form>
+                        <c:choose>
+                            <c:when test="#{userController.validAdmin(userController.loggedInUser)}">
+                                <h:form id="deleteForm">
+                                    <h:commandButton value="Delete" action="#{userController.deleteUser(user.email)}"
+                                                     id="deleteButton"/>
+                                </h:form>
+                            </c:when>
+                            <c:otherwise>
+                                <h:outputText value="No admin"/>
+                            </c:otherwise>
+                        </c:choose>
                     </h:column>
                 </h:dataTable>
             </c:otherwise>

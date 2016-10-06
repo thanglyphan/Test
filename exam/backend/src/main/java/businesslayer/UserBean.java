@@ -45,6 +45,11 @@ public class UserBean implements Serializable{
             user.setMiddlename(mName);
             user.setLastname(lName);
             user.setAddress(adr);
+            if(user.getEmail().equals("admin@admin.no")){
+                user.setAdmin(true);
+            }else{
+                user.setAdmin(false);
+            }
             adr.setUsers(user);
 
             persistInATransaction(adr, user);
@@ -52,7 +57,13 @@ public class UserBean implements Serializable{
         }
     }
 
+    public boolean checkAdmin(String email){
+        return getUser(email).isAdmin();
+    }
 
+    public User getUser(String email){
+        return em.find(User.class, email);
+    }
 
     public boolean findUser(String email){
         return em.find(User.class, email) != null;
@@ -77,10 +88,13 @@ public class UserBean implements Serializable{
         em.remove(user);
     }
 
-    public void deleteAllUsers(){
+    public int deleteAllUsers(){
+        int i = 0;
         for(User a: getUserList()){
+            i++;
             deleteUser(a.getEmail());
         }
+        return i;
     }
 
     public String checkLogin(String email, String password) {

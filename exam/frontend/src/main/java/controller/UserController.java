@@ -3,11 +3,11 @@ package controller;
 import businesslayer.UserBean;
 import datalayer.Address;
 import datalayer.User;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,15 +16,15 @@ import java.util.List;
 @Named
 @SessionScoped
 public class UserController implements Serializable {
-    private String email;
-    private String firstname;
-    private String middlename;
-    private String lastname;
-    private String gateAddress;
-    private String country;
-    private String password;
-    private int postCode;
-    private String city;
+    private String formEmail;
+    private String formFirstname;
+    private String formMiddlename;
+    private String formLastname;
+    private String formGateAddress;
+    private String formCountry;
+    private String formPassword;
+    private int formPostCode;
+    private String formCity;
     private Address adr;
     private String loggedInUser;
 
@@ -33,20 +33,20 @@ public class UserController implements Serializable {
 
     public void createNewUser(){
         adr = new Address();
-        adr.setCity(city);
-        adr.setGateAddress(gateAddress);
-        adr.setCountry(country);
-        adr.setPostCode(postCode);
-        boolean check = userBean.createUser(email, password ,firstname, middlename, lastname, adr);
+        adr.setCity(formCity);
+        adr.setGateAddress(formGateAddress);
+        adr.setCountry(formCountry);
+        adr.setPostCode(formPostCode);
+        boolean check = userBean.createUser(formEmail, formPassword ,formFirstname, formMiddlename, formLastname, adr);
         if(check){
-            loggedInUser = email;
+            loggedInUser = formEmail;
         }
     }
 
     public String login(){
-        String valid = userBean.checkLogin(email, password);
+        String valid = userBean.checkLogin(formEmail, formPassword);
         if(!valid.equals("login")){
-            loggedInUser = email;
+            loggedInUser = formEmail;
         }
         return valid;
     }
@@ -56,99 +56,103 @@ public class UserController implements Serializable {
         return "login";
     }
 
-    public List<User> getUsers(){
-        return userBean.getUserList();
+    public boolean validAdmin(String id){
+        return userBean.checkAdmin(id);
     }
 
     public void deleteUser(String email){
         userBean.deleteUser(email);
     }
 
-    public String getEmail() {
-        return email;
+    public List<User> getUsers(){
+        return userBean.getUserList();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Address getAdr() {
-        return adr;
-    }
-
-    public void setAdr(Address adr) {
-        this.adr = adr;
-    }
-
-    public String getGateAddress() {
-        return gateAddress;
-    }
-
-    public void setGateAddress(String gateAddress) {
-        this.gateAddress = gateAddress;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public int getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(int postCode) {
-        this.postCode = postCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isLoggedIn() {
+    public boolean isLoggedIn(){
         return loggedInUser != null;
     }
 
-    public String getLoggedInUser(){
+    public List<String> getCountries(){
+        return Arrays.asList("Norway", "Sweden", "Denmark", "Iceland", "Finland", "United States", "Germany");
+    }
+
+    public String getFormEmail() {
+        return formEmail;
+    }
+
+    public void setFormEmail(String formEmail) {
+        this.formEmail = formEmail;
+    }
+
+    public String getFormFirstname() {
+        return formFirstname;
+    }
+
+    public void setFormFirstname(String formFirstname) {
+        this.formFirstname = formFirstname;
+    }
+
+    public String getFormMiddlename() {
+        return formMiddlename;
+    }
+
+    public void setFormMiddlename(String formMiddlename) {
+        this.formMiddlename = formMiddlename;
+    }
+
+    public String getFormLastname() {
+        return formLastname;
+    }
+
+    public void setFormLastname(String formLastname) {
+        this.formLastname = formLastname;
+    }
+
+    public String getFormGateAddress() {
+        return formGateAddress;
+    }
+
+    public void setFormGateAddress(String formGateAddress) {
+        this.formGateAddress = formGateAddress;
+    }
+
+    public String getFormCountry() {
+        return formCountry;
+    }
+
+    public void setFormCountry(String formCountry) {
+        this.formCountry = formCountry;
+    }
+
+    public String getFormPassword() {
+        return formPassword;
+    }
+
+    public void setFormPassword(String formPassword) {
+        this.formPassword = formPassword;
+    }
+
+    public int getFormPostCode() {
+        return formPostCode;
+    }
+
+    public void setFormPostCode(int formPostCode) {
+        this.formPostCode = formPostCode;
+    }
+
+    public String getFormCity() {
+        return formCity;
+    }
+
+    public void setFormCity(String formCity) {
+        this.formCity = formCity;
+    }
+
+    public String getLoggedInUser() {
         return loggedInUser;
+    }
+
+    public void setLoggedInUser(String loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 }

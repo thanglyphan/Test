@@ -3,7 +3,6 @@ package essentials;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import java.util.List;
 
 /**
@@ -20,38 +19,25 @@ public class CreatingAccountObject extends PageObject {
         waitForPageToLoad();
     }
 
-
     @Override
     public boolean isOnPage(){
         return getDriver().getTitle().contains("Register");
     }
 
     public void writeTextTo(String field, String theInput){
-        WebElement text = getDriver().findElement(By.id("form:" + field));
+        WebElement text = getDriver().findElement(By.id("createUserForm:" + field));
         text.sendKeys(theInput);
         waitForPageToLoad();
     }
 
-    public void clickCreate(){
-        WebElement button = getDriver().findElement(By.id("form:createUserBtn"));
+    public StatisticsPageObject clickCreate(){
+        WebElement button = getDriver().findElement(By.id("createUserForm:createUserBtn"));
         button.click();
         waitForPageToLoad();
-    }
 
-    public int getNumberOfUsers(){
-        List<WebElement> elements = getDriver().findElements(
-                By.xpath("//table[@id='userTable']//tbody//tr[string-length(text()) > 0]"));
-        return elements.size();
-    }
+        StatisticsPageObject po = new StatisticsPageObject(getDriver());
 
-    public void deleteUser(int position){
-        String htmlPos = "" + (position + 1);// XPath starts from 1 and not 0
-
-        WebElement button = getDriver().findElement(
-                By.xpath("//table[@id='userTable']//tbody//tr["+htmlPos+"]/td[3]/form/input[@value = 'Delete']"));
-        button.click();
-
-        waitForPageToLoad();
+        return po;
     }
 
 }

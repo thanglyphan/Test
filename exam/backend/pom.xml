@@ -111,18 +111,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
             </plugin>
-            <!--
-                These two plugins are needed to run the Selenium tests automatically
-                from Maven when executing "mvn verify"
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-            </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>

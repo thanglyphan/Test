@@ -1,6 +1,9 @@
 package datalayer;
 
 
+import validation.Country;
+import validation.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,21 +28,22 @@ public class Address {
     @GeneratedValue
     private long id;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2 , max = 100)
     private String gateAddress;
 
     @OneToOne
     private User user;
 
-    @NotNull
+    @NotEmpty
+    @Country
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String country;
 
     @NotNull
     private int postCode;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 2 , max = 100) @Pattern(regexp = "^[a-zA-Z ]*$")
     private String city;
 

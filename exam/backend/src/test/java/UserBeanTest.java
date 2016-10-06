@@ -1,5 +1,6 @@
 import businesslayer.UserBean;
 import datalayer.Address;
+import datalayer.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -56,12 +57,26 @@ public class UserBeanTest {
         assertEquals(1, userBean.getAddressList().size());
     }
 
+
+    @Test
+    public void testUserAreAdmin(){
+        Address adr = getValidAddress();
+        Address adr2 = getValidAddress();
+
+        assertTrue(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Quoc Ly", "Phan", adr));
+        assertTrue(userBean.createUser("admin@admin.no", "Mazda323123", "Thang", "Quoc Ly", "Phan", adr2));
+
+        assertFalse(userBean.getUser("Lyern52@gmail.com").isAdmin());
+        assertTrue(userBean.getUser("admin@admin.no").isAdmin());
+        assertEquals(2, userBean.getAddressList().size());
+    }
     @Test
     public void testDeleteUser(){
         int expected = userBean.getAddressList().size();
         assertEquals(0, expected);
         Address adr = getValidAddress();
         assertTrue(userBean.createUser("Lyern52@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
+        assertEquals(1, userBean.getAddressList().size());
 
         userBean.deleteUser(userBean.getUserList().get(0).getEmail());
         assertEquals(expected, userBean.getAddressList().size());
@@ -91,9 +106,14 @@ public class UserBeanTest {
     public void testCheckLogin(){
         Address adr = getValidAddress();
         assertTrue(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
-        assertFalse(userBean.createUser("Lyern521@gmail.com", "Mazda323123", "Thang", "Ly", "Phan", adr));
-
 
         assertEquals("overview", userBean.checkLogin("Lyern521@gmail.com", "Mazda323123"));
+
+        assertEquals("login", userBean.checkLogin("d", "d"));
+    }
+    @Test
+    public void testDeleteAllUsers(){
+        int expected = userBean.getUserList().size();
+        assertEquals(expected, userBean.deleteAllUsers());
     }
 }
