@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 /**
@@ -51,6 +52,9 @@ public class User {
 
     @OneToOne(orphanRemoval = true)
     private Address address;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Meeting> meetings;
 
     @NotNull
     private boolean admin;
@@ -131,4 +135,13 @@ public class User {
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
+
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
+
 }

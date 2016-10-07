@@ -1,6 +1,7 @@
 package businesslayer;
 
 import datalayer.Address;
+import datalayer.Meeting;
 import datalayer.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class UserBean implements Serializable{
                 user.setAdmin(false);
             }
             adr.setUsers(user);
-
+            user.setMeetings(new ArrayList<>());
             persistInATransaction(adr, user);
             return true;
         }
@@ -114,6 +116,18 @@ public class UserBean implements Serializable{
             return "overview";
         }
         return "login";
+    }
+
+    public boolean addMeeting(Meeting meeting, String email){
+
+        User user = em.find(User.class, email);
+        int size = user.getMeetings().size();
+
+        user.getMeetings().add(meeting);
+        if(user.getMeetings().size() > size){
+            return true;
+        }
+        return false;
     }
 
     @NotNull
