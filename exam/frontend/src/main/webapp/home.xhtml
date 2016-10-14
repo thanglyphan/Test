@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+<ui:composition template="layout.xhtml">
+
+    <ui:define name="title">
+        Welcome to Thangs page
+    </ui:define>
+
+    <ui:define name="content">
+
+        <c:choose>
+            <c:when test="#{userController.loggedInUser == null}">
+                <h:outputText value="You have to log in to see the content!"/>
+            </c:when>
+            <c:otherwise>
+                <h:form id="meetingForm">
+                    <h:outputText value="Hello, #{userController.loggedInUser}! Sup?"/>
+                    <h:commandButton value="Create new meeting" action="#{meetingController.goToCreateNewMeetingPage}"
+                                     id="createMeetingBtn"/>
+                </h:form>
+
+                <c:choose>
+                    <c:when test="#{meetingController.meetings.size() == 0}">
+                        <h:outputText value="No meetings here, create one!"/>
+                    </c:when>
+                    <c:otherwise>
+                        <h:dataTable value="#{meetingController.meetings}" var="meeting" border="1" id="meetingTable">
+                            <h:column>
+                                <f:facet name="header">Location</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.location}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Country</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.country}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">The creator</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.creator}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Participants</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.users.size()}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Created at</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.date}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Scheduled date</f:facet> <!-- Column name -->
+                                <h:outputText value="#{meeting.scheduledDate}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Actions</f:facet> <!-- Column name -->
+                                <h:outputText value="Attending" rendered="#{meetingController.getUserAttending(userController.loggedInUser, meeting.id)}"/>
+                                <h:form id="attendMeetingForm">
+                                    <h:commandButton value="Attend" action="#{userController.attendMeeting(meeting.id, userController.loggedInUser)}"
+                                                     rendered="#{!(meetingController.getUserAttending(userController.loggedInUser, meeting.id))}"/>
+                                </h:form>
+                                <h:form id="deleteMeetingForm">
+                                    <h:commandButton value="Delete" action="#{meetingController.deleteMeeting(meeting.id)}" id="deleteMeetingButton"
+                                                     rendered="#{userController.loggedInUser eq meeting.creator}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+                    </c:otherwise>
+                </c:choose>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+</ui:composition>
+
+</html>

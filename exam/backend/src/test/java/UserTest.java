@@ -59,9 +59,9 @@ public class UserTest {
         String salt = getSalt();
         user.setSalt(salt);
         user.setHash(computeHash("Mazda323123", salt));
-        user.setMiddlename("Quoc Ly");
+        user.setMiddlename("Ly");
         user.setLastname("Phan");
-        user.setEmail("lyern52@gmail.com");
+        user.setEmail("Lyern52@gmail.com");
         user.setAdmin(true);
         user.setAddress(getValidAddress());
 

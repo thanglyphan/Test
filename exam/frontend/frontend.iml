@@ -13,7 +13,7 @@
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
-          <root url="file://$MODULE_DIR$/src/main/webapp/choices" />
+          <root url="file://$MODULE_DIR$/src/main/webapp/exam" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -25,7 +25,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/choices" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/exam" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/../../frontend/target" />
     </content>

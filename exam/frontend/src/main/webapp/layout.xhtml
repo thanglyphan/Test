@@ -20,9 +20,10 @@
 <h:body>
 
     <p>
-        <a href="/">Home</a>
+
+        <a href="home.xhtml">Home</a>
         <a href="register.xhtml"> Register </a>
-        <a href="overview.xhtml"> Statistics </a>
+        <a href="overview.xhtml" id="statsPage"> Statistics </a>
 
         <c:choose>
             <c:when test="#{userController.isLoggedIn()}">

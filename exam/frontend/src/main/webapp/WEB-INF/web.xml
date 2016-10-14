@@ -6,9 +6,9 @@
 
     <display-name>Thangomango web</display-name>
 
-    <!-- default page, recall that if none define, index.html would be the default anyway... -->
+    <!-- default page, recall that if none define, home.xhtml would be the default anyway... -->
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>home.xhtml</welcome-file>
     </welcome-file-list>
 
     <!--

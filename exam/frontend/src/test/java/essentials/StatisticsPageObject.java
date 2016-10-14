@@ -16,7 +16,7 @@ public class StatisticsPageObject extends PageObject {
     }
 
     public void toStartingPage(){
-        getDriver().get(getBaseUrl()+ "/overview.xhtml");
+        getDriver().get(getBaseUrl() + "/overview.xhtml");
         waitForPageToLoad();
     }
 

@@ -4,6 +4,7 @@ import datalayer.Address;
 import datalayer.Meeting;
 import datalayer.User;
 import org.apache.commons.codec.digest.DigestUtils;
+import validation.NotEmpty;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,12 +21,12 @@ import java.util.List;
  * Created by thang on 21.09.2016.
  */
 @Stateless
-public class UserBean implements Serializable{
+public class UserEJB implements Serializable{
 
     @PersistenceContext(unitName = "MyDB")
     EntityManager em;
 
-    public UserBean(){}
+    public UserEJB(){}
 
     private void persistInATransaction(Object... obj) {
         for(Object o : obj) {
@@ -33,7 +34,7 @@ public class UserBean implements Serializable{
         }
     }
 
-    public boolean createUser(@NotNull String email, @NotNull String password, @NotNull String fName, @NotNull String lName, @NotNull String mName, @NotNull Address adr){
+    public boolean createUser(@NotEmpty String email, @NotEmpty String password, @NotEmpty String fName, @NotEmpty String lName, @NotEmpty String mName, @NotNull Address adr){
         if(findUser(email)) {
             return false;
         }else{
@@ -113,7 +114,7 @@ public class UserBean implements Serializable{
         String hash = computeHash(password, found.getSalt());
 
         if(hash.equals(found.getHash())){
-            return "overview";
+            return "home";
         }
         return "login";
     }
@@ -128,6 +129,22 @@ public class UserBean implements Serializable{
             return true;
         }
         return false;
+    }
+
+    public void deleteMeetingFromAllUsers(Meeting meeting){
+        List<User> list = getUserList();
+
+        System.out.println("FUCKED");
+        for(User a: list){
+            if(a.getMeetings().size() > 0){
+                System.out.println("Meeting to be removed: Country: " + meeting.getCountry() + " Loc: " + meeting.getLocation());
+                for(Meeting b: a.getMeetings()){
+                    System.out.println("User have these meetings registered: Country: " + b.getCountry() + " Loc: " + b.getLocation());
+                }
+            }else{
+               System.out.println("List of meetings are not larger than zero");
+            }
+        }
     }
 
     @NotNull

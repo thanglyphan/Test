@@ -8,7 +8,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 
-<ui:composition template="../layout.xhtml">
+<ui:composition template="layout.xhtml">
 
     <ui:define name="title">
         Register a user
@@ -33,6 +33,8 @@
                         <h:inputText value="#{userController.formEmail}" id="emailText"/>
                         <h:outputLabel value="Password: "/>
                         <h:inputSecret value="#{userController.formPassword}" id="passwordText"/>
+                        <h:outputLabel value="Confirm password: "/>
+                        <h:inputSecret value="#{userController.formConfirmPassword}" id="confirmPasswordText"/>
                         <h:outputLabel value="First name: "/>
                         <h:inputText value="#{userController.formFirstname}" id="firstNameText"/>
                         <h:outputLabel value="Middle name: "/>

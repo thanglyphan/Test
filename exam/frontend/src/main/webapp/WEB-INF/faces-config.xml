@@ -2,4 +2,47 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
               version="2.2">
+
+    <navigation-rule>
+        <from-view-id>login.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{userController.createNewUserBtn}</from-action>
+            <from-outcome>register</from-outcome>
+            <to-view-id>register.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userController.cancelBtn}</from-action>
+            <from-outcome>home</from-outcome>
+            <to-view-id>home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userController.login}</from-action>
+            <from-outcome>home</from-outcome>
+            <to-view-id>home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userController.login}</from-action>
+            <from-outcome>login</from-outcome>
+            <to-view-id>login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <from-view-id>register.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{userController.createNewUser}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{userController.createNewUser}</from-action>
+            <from-outcome>failed</from-outcome>
+            <to-view-id>register.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+    </navigation-rule>
 </faces-config>

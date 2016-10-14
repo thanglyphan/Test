@@ -16,7 +16,7 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 public abstract class SeleniumTestBase {
-
+    protected static HomePageObject homePageObject;
     private static WebDriver driver;
 
     private static boolean tryToSetGeckoIfExists(String property, Path path){

@@ -1,9 +1,11 @@
 package essentials;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by thang on 24.09.2016.
@@ -28,7 +30,28 @@ public abstract class PageObject {
     }
 
     protected String getBaseUrl(){
-        return "http://localhost:8080/choices";
+        return "http://localhost:8080/exam";
+    }
+
+    public void writeTextTo(String theForm, String field, String theInput){
+        WebElement text = getDriver().findElement(By.id(theForm + field));
+        text.clear();
+        text.sendKeys(theInput);
+    }
+
+
+    public boolean isLoggedIn(){
+        List<WebElement> logout = driver.findElements(By.id("logoutForm:logoutButton"));
+        return !logout.isEmpty();
+    }
+
+    public void logout(){
+
+        List<WebElement> logout = driver.findElements(By.id("logoutForm:logoutButton"));
+        if(! logout.isEmpty()){
+            logout.get(0).click();
+            waitForPageToLoad();
+        }
     }
 
     protected Boolean waitForPageToLoad() {

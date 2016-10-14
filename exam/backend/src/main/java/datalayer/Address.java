@@ -26,7 +26,7 @@ public class Address {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 2 , max = 100)
@@ -98,11 +98,11 @@ public class Address {
         this.city = city;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

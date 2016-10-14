@@ -8,7 +8,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 
-<ui:composition template="../layout.xhtml">
+<ui:composition template="layout.xhtml">
 
     <ui:define name="title">
         Statistics
@@ -24,6 +24,9 @@
         <c:choose>
             <c:when test="#{userController.getUsers().size() == 0}">
                 <h:outputText value="No users yet"/>
+            </c:when>
+            <c:when test="#{userController.loggedInUser == null}">
+                <h:outputText value="You have to log in to see the statistics!"/>
             </c:when>
 
             <c:otherwise>

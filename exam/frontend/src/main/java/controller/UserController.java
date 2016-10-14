@@ -1,13 +1,17 @@
 package controller;
 
-import businesslayer.UserBean;
+
+import businesslayer.MeetingEJB;
+import businesslayer.UserEJB;
 import datalayer.Address;
+import datalayer.Meeting;
 import datalayer.User;
+import lists.Countries;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,57 +27,103 @@ public class UserController implements Serializable {
     private String formGateAddress;
     private String formCountry;
     private String formPassword;
+    private String formConfirmPassword;
     private int formPostCode;
     private String formCity;
     private Address adr;
     private String loggedInUser;
 
     @EJB
-    private UserBean userBean;
+    private UserEJB userEJB;
 
-    public void createNewUser(){
+    @EJB
+    private MeetingEJB meetingEJB;
+
+    public String createNewUser(){ //Navigating in the faces-config.xml
         adr = new Address();
         adr.setCity(formCity);
         adr.setGateAddress(formGateAddress);
         adr.setCountry(formCountry);
         adr.setPostCode(formPostCode);
-        boolean check = userBean.createUser(formEmail, formPassword ,formFirstname, formMiddlename, formLastname, adr);
+        if(formPassword.isEmpty()){ //This password can be "". Need this here.
+            return "failed";
+        }
+        if(!formPassword.equals(formConfirmPassword)){
+            return "failed";
+        }
+        boolean check = userEJB.createUser(formEmail, formPassword ,formFirstname, formMiddlename, formLastname, adr);
         if(check){
             loggedInUser = formEmail;
+            return "success";
         }
+        return "";
     }
 
     public String login(){
-        String valid = userBean.checkLogin(formEmail, formPassword);
-        if(!valid.equals("login")){
+        String valid = userEJB.checkLogin(formEmail, formPassword);
+        if(valid.equals("home")){
             loggedInUser = formEmail;
         }
         return valid;
     }
 
+    public void attendMeeting(Long id, String email){
+        Meeting meeting = meetingEJB.getMeeting(id);
+        meetingEJB.addUserToMeeting(meeting, userEJB.getUser(email)); //Adding user to meeting.
+        userEJB.addMeeting(meeting, email); //Adding meeting to the user.
+    }
+
+    public String createNewUserBtn(){
+        return "register"; //Navigating in the faces-config.xml
+    }
+
+    public String cancelBtn(){
+        return "home"; //Navigating in the faces-config.xml
+    }
+
     public String logOut(){
         loggedInUser = null;
-        return "login";
+        return "home"; //Navigating here bcuz this gets called in layout.xhtml, making the page buggy.
     }
 
     public boolean validAdmin(String id){
-        return userBean.checkAdmin(id);
-    }
-
-    public void deleteUser(String email){
-        userBean.deleteUser(email);
-    }
-
-    public List<User> getUsers(){
-        return userBean.getUserList();
+        return userEJB.checkAdmin(id);
     }
 
     public boolean isLoggedIn(){
         return loggedInUser != null;
     }
 
+    public void deleteUser(String email){
+        userEJB.deleteUser(email);
+    }
+
+    public List<User> getUsers(){
+        return userEJB.getUserList();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*-------------------------------GETTER AND SETTER-------------------------------*/
+
     public List<String> getCountries(){
-        return Arrays.asList("Norway", "Sweden", "Denmark", "Iceland", "Finland", "United States", "Germany");
+        return Countries.getCountries(); //Arrays.asList("Norway", "Sweden", "Denmark", "Iceland", "Finland", "United States", "Germany");
     }
 
     public String getFormEmail() {
@@ -154,5 +204,13 @@ public class UserController implements Serializable {
 
     public void setLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public String getFormConfirmPassword() {
+        return formConfirmPassword;
+    }
+
+    public void setFormConfirmPassword(String formConfirmPassword) {
+        this.formConfirmPassword = formConfirmPassword;
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+<ui:composition template="layout.xhtml">
+
+    <ui:define name="title">
+        Create meeting
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="createMeetingForm">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Country: "/>
+                <h:selectOneMenu value="#{meetingController.formCountry}" id="countryText">
+                    <f:selectItems value="#{meetingController.countries}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="Location: "/>
+                <h:inputText value="#{meetingController.formLocation}" id="locationText"/>
+                <h:outputLabel value="Date: "/>
+                <h:inputText value="#{meetingController.formScheduledDate}" id="scheduledDateText"/>
+                
+
+            </h:panelGrid>
+
+            <h:commandButton value="Create" action="#{meetingController.createMeeting}" id="createBtn"/>
+            <h:commandButton value="Cancel" action="#{meetingController.clickCancel}" id="cancelBtn"/>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+</html>
